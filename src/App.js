@@ -3,10 +3,10 @@ import Alert from './Alert';
 import List from './List';
 
 function App() {
-  const [item, setItem] = useState('');
-  const [list, setList] = useState([]);
+  const [item, setItem] = useState('')
+  const [list, setList] = useState([])
   const [isEditing, setIsEditing] = useState(false);
-  const [editID, setEditID] = useState(null);
+  const [editID, setEditID] = useState(null)
   const [alert, setAlert] = useState({
     show: false,
     msg: '',
@@ -15,30 +15,43 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!item) {
-      //display alert
-    } else if (item && isEditing) {
-      // deal
+    if(!item) {
+      showAlert(
+        true,
+        'danger',
+        'Please input the item'
+      )
+    } else if(item && isEditing) {
+      //
     } else {
+      showAlert(
+        true,
+        'success',
+        'Item Submitted'
+      )
       const newItem = {
         id: new Date().getTime().toString(),
         title: item
       };
       setList([...list, newItem])
-      setItem('')
+      setItem('');
     }
+  }
+
+  const showAlert = (show = false, type = '', msg = '') => {
+    setAlert({show, type, msg})
   }
 
   return (
     <div className="bg-blue-100 w-screen h-screen flex items-center">
-      <div className="mx-auto w-1/2 h-1/2 bg-white shadow-xl rounded">
+      <div className="mx-auto w-1/2 bg-white shadow-xl rounded pt-6 pb-10">
         <div className="flex flex-col text-center items-center">
           <div>
             <form onSubmit={handleSubmit}>
-              {alert.show && (<Alert />)}
-              <h1>Grocery Bud</h1>
+              {alert.show &&(<Alert {...alert} removeAlert={showAlert} />)}
+              <h1>Item List</h1>
               <input 
-                type="text" 
+                type="text"
                 className="border border-black rounded"
                 value={item}
                 onChange={(e) => setItem(e.target.value)}
@@ -51,10 +64,14 @@ function App() {
               </button>
             </form>
           </div>
-          <List lists={list}/>
-          <button>
-            Clear Items
-          </button>
+          {list.length > 0 && (
+            <div className="w-full p-4">
+              <List lists={list}/>
+              <button>
+                Clear Items
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
