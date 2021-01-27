@@ -7,7 +7,6 @@
 4. Styling with tailwind.
 5. Not too much features, just useState and useEffect.
 6. Deconstructing the object state and function
-7. 
 
 ## How to run this project:
 1. Clone this repository: `git clone https://github.com/RendyArthaP/item-list-crud.git`
